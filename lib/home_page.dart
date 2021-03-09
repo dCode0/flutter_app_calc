@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_flutter_app/conversionLogic.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget{
   @override
@@ -66,6 +68,20 @@ class HomePageState extends State<HomePage>{
       num1 = '0';
     });
   }
+
+  void _power(){
+    setState(() {
+      oper= '^';
+      if(flag==0){
+        num2 = num1;
+      }
+      else{
+        num2 = ansStr;
+      }
+      num1 = '0';
+    });
+  }
+
   void _one(){
     setState(() {
       num1+="1";
@@ -183,12 +199,13 @@ class HomePageState extends State<HomePage>{
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                _button("9", _nine),
-                _button("8", _eight),
-                _button("7", _seven),
-                _button("+", _add)
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: _button("9", _nine)),
+                Expanded(child: _button("8", _eight)),
+                Expanded(child: _button("7", _seven)),
+                Expanded(child: _button("+", _add)),
+                Expanded(child: _nextPage("^", _power))
               ],
             ),
             Row(
@@ -226,12 +243,28 @@ class HomePageState extends State<HomePage>{
 
   Widget _button (String number, Function() f){
     return MaterialButton(
-      height: 100.0,
+      height: 70.0,
       child: Text(number,
-          style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0)),
+          style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
       textColor: Colors.black,
       color: Colors.lightGreenAccent[100],
       onPressed: f,
+    );
+  }
+
+  Widget _nextPage (String number, Function() e){
+    return MaterialButton(
+      height: 70.0,
+      child: Text(number,
+          style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0)),
+      textColor: Colors.black,
+      color: Colors.lightGreenAccent[100],
+      onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_nextPage) => ConvertScreen()),
+      );
+    },
     );
   }
 }
